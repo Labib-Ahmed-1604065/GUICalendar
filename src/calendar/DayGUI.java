@@ -11,9 +11,11 @@ import java.util.TreeSet;
 /*
  * 1) add a scroll bar
  * 2) Days with events are aligned to the right 
- * 3) change the toString() method of displaying events 
- * 4) if for example an event duration is 2 hours, the fields don't 
- * 	  merge! 
+ */
+
+/**
+ * A JPanel that represents the Calendar Day View in GUI. 
+ *
  */
 public class DayGUI extends JPanel implements ChangeListener{
 
@@ -22,6 +24,10 @@ public class DayGUI extends JPanel implements ChangeListener{
 	private DayField[] dayFields;
 	private LocalDate selectedDate;
 
+	/**
+	 * Constructs a DayGUI object.
+	 * @param s a reference to the Scheduler object (model)
+	 */
 	public DayGUI(Scheduler s)
 	{
 		scheduler = s;
@@ -41,6 +47,9 @@ public class DayGUI extends JPanel implements ChangeListener{
 		}
 	}
 
+	/**
+	 * Draws the DayGUI object.
+	 */
 	public void drawView()
 	{
 
@@ -84,6 +93,10 @@ public class DayGUI extends JPanel implements ChangeListener{
 		this.setPreferredSize(new Dimension(400,100));
 	}
 
+	/**
+	 * Display events scheduled on the currently selected day in the day view.
+	 * @param date the currently selected date 
+	 */
 	private void displayEvents(LocalDate date)
 	{
 		//get updated data
@@ -132,6 +145,10 @@ public class DayGUI extends JPanel implements ChangeListener{
 		}
 	}
 
+	/**
+	 * Changes the visual representation of events that are longer than 1 hour.
+	 * @param event the event
+	 */
 	private void highlightLongEvent(CalendarEvent event)
 	{
 		String startHr = event.getStartHrs();
@@ -139,95 +156,104 @@ public class DayGUI extends JPanel implements ChangeListener{
 		int intStartHr = Integer.parseInt(startHr);
 		int intFinishHr = Integer.parseInt(finishHr);
 
-		//		DayField startField = null;
-		//		DayField finishField = null;
-
+		//iterate over dayFields till you find the corresponding starting hour
 		for (DayField dayField : dayFields)
 		{
+			//if you've reached the corresponding starting hour
 			if (dayField.getStringHour().equals(startHr))
 			{
+				//change the representation of the JTextArea of the field
+				//change background color to gray and change the border
 				dayField.getArea().setBackground(Color.LIGHT_GRAY);
 				dayField.setBorder(new EmptyBorder(0,0,0,0));
+				//print event info
 				String text = dayField.getAreaText() + " " + event.printEvent() + "\n";
 				dayField.setAreaText("");
 				dayField.setAreaText(text);
+				//flag the field
 				dayField.setFlag(true);
 			}
 
+			//if you've reached the corresponding ending hour
 			else if (dayField.getStringHour().equals(finishHr))
 			{
+				//change the representation of the JTextArea of the field
 				dayField.getArea().setBackground(Color.LIGHT_GRAY);
 				dayField.setBorder(new EmptyBorder(0,0,0,0));
 				dayField.setFlag(true);
 			}
-
+			
+			//if a dayField is between the starting and ending hours
 			else if ((Integer.parseInt(dayField.getStringHour()) > intStartHr) && 
 					(Integer.parseInt(dayField.getStringHour()) < intFinishHr))
 			{
+				//change the representation of the JTextArea of the field
 				dayField.getArea().setBackground(Color.LIGHT_GRAY);
 				dayField.setBorder(new EmptyBorder(0,0,0,0));
 				dayField.setFlag(true);
 			}
-
 		}
-
-		//		return  new JTextArea(startField.getArea().getRows() + finishField.getArea().getRows(),
-		//				startField.getArea().getColumns() + finishField.getArea().getColumns());
-		//		Rectangle2D rect = new Rectangle2D.Double(startField.getX(), startField.getY(),
-		//				startField.getWidth(), startField.getHeight() + finishField.getHeight());
-		//	
 	}
 
 	@Override
+	/**
+	 * Updates the DayGUI view upon a change in the model. 
+	 * @param e the event that notifies the view of the change
+	 */
 	public void stateChanged(ChangeEvent e) {
 
 		//remove any existing components in the DayGUI panel
 		this.removeAll();
 		this.updateUI();
+		//get updated information from the scheduler (the model)
 		selectedDate = scheduler.getSelectedDate();
-
+		//if the selected date has any scheduled events, display them
 		if (scheduler.hasEvents(selectedDate))
 			displayEvents(selectedDate);
 
-
+		//draw the day view
 		drawView();
 	}
 
-	public  DayField[] getDayFields()
+	/**
+	 * Gets the array of dayFields in the dayGUI.
+	 * @return the array of dayFields
+	 */
+	public DayField[] getDayFields()
 	{
 		return dayFields;
 	}
 
-	public static void main(String[] args)
-	{
-		Scheduler s = new Scheduler();
-		//LocalDateTime date = LocalDateTime.now();
-		DayGUI dayView = new DayGUI(s);
-		s.attach(dayView);
-
-		CalendarEvent event = new CalendarEvent("Test", "07/24/2017", "14:00");
-		CalendarEvent event2 = new CalendarEvent("TTTEST", "07/24/2017", "14:30");
-		s.createEvent(event);
-		s.createEvent(event2);
-
-
-		dayView.drawView();
-
-		for (DayField dayField : dayView.getDayFields())
-		{
-			System.out.println(dayField.getArea().getText());
-		}
-
-		//s.setSelectedDate(LocalDate.of(1997, 1, 19));
-		//dayView.drawView();
-		JFrame frame = new JFrame();
-		frame.setSize(800, 300);
-		frame.setLayout(new BorderLayout());
-
-		frame.add(dayView, BorderLayout.EAST);
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.pack();	
-	}
+//	public static void main(String[] args)
+//	{
+//		Scheduler s = new Scheduler();
+//		//LocalDateTime date = LocalDateTime.now();
+//		DayGUI dayView = new DayGUI(s);
+//		s.attach(dayView);
+//
+//		CalendarEvent event = new CalendarEvent("Test", "07/24/2017", "14:00");
+//		CalendarEvent event2 = new CalendarEvent("TTTEST", "07/24/2017", "14:30");
+//		s.createEvent(event);
+//		s.createEvent(event2);
+//
+//
+//		dayView.drawView();
+//
+//		for (DayField dayField : dayView.getDayFields())
+//		{
+//			System.out.println(dayField.getArea().getText());
+//		}
+//
+//		//s.setSelectedDate(LocalDate.of(1997, 1, 19));
+//		//dayView.drawView();
+//		JFrame frame = new JFrame();
+//		frame.setSize(800, 300);
+//		frame.setLayout(new BorderLayout());
+//
+//		frame.add(dayView, BorderLayout.EAST);
+//		frame.setVisible(true);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.pack();	
+//	}
 
 }

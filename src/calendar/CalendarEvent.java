@@ -4,13 +4,6 @@ package calendar;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-/*
- * Problems to tackle:
- * 1) events can have no ending time  					TACKLED
- * 2) ending time MUST be > starting time
- * 3) time should be entered in this format HH:MM
- * 4) compareTo should compare time then date			TACKLED		
- */
 
 /**
  * 
@@ -31,7 +24,7 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
 	private LocalDate date;				//date with starting hour and minute
 
 	/**
-	 * Construct an Event object that has an ending time.
+	 * Constructs an Event object that has an ending time.
 	 * @param title the event title
 	 * @param date the event date
 	 * @param start	the event starting time
@@ -49,7 +42,7 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
 	}
 
 	/**
-	 * Construct an Event object with no ending time.
+	 * Constructs an Event object with no ending time.
 	 * @param title	the event title
 	 * @param date the event date
 	 * @param start the event starting time
@@ -75,7 +68,7 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
 	}
 
 	/**
-	 * Change event's title.
+	 * Changes event's title.
 	 * @param title the new title
 	 */
 	public void setTitle(String title)
@@ -84,7 +77,7 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
 	}
 
 	/**
-	 * Change event's string date.
+	 * Changes event's string date.
 	 * @param date the new date 
 	 */
 	public void setDate(String date)
@@ -94,7 +87,7 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
 	}
 
 	/**
-	 * Change event's starting time.
+	 * Changes event's starting time.
 	 * @param start the new starting time
 	 */
 	public void setStart(String start)
@@ -107,7 +100,7 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
 	}
 
 	/**
-	 * Change event's ending time.
+	 * Changes event's ending time.
 	 * @param end the new ending time
 	 */
 	public void setEnd(String end)
@@ -119,9 +112,8 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
 
 	}
 
-	//getters
 	/**
-	 * Get the event's title.
+	 * Gets the event's title.
 	 * @return the event title
 	 */
 	public String getTitle()
@@ -130,7 +122,7 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
 	}
 
 	/**
-	 * Get the event's string date.
+	 * Gets the event's string date.
 	 * @return the event string date
 	 */
 	public String getStringDate()
@@ -139,7 +131,7 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
 	}
 
 	/**
-	 * Get the event's date with the starting time.
+	 * Gets the event's date.
 	 * @return the event date
 	 */
 	public LocalDate getDate()
@@ -149,7 +141,7 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
 
 
 	/**
-	 * Get the event's full starting time in the string format.
+	 * Gets the event's full starting time in the string format: 24:00.
 	 * @return the event starting time
 	 */
 	public String getStartHrsMins()
@@ -161,7 +153,7 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
 	}
 
 	/**
-	 * Get the event's full ending time in the string format.
+	 * Gets the event's full ending time in the string format: 24:00.
 	 * @return the event ending time
 	 */
 	public String getEndHrsMins()
@@ -173,7 +165,7 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
 	}
 
 	/**
-	 * Get the event's starting hour in the string format.
+	 * Gets the event's starting hour in the string format.
 	 * @return the event starting hour
 	 */
 	public String getStartHrs()
@@ -184,6 +176,10 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
 		return s;
 	}
 
+	/**
+	 * Gets the event's staring minute in the string format.
+	 * @return the event's starting minute
+	 */
 	public String getStartMins()
 	{
 		String s = "";
@@ -192,6 +188,10 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
 		return s;
 	}
 
+	/**
+	 * Gets the event's ending hour in the string format.
+	 * @return the event's ending hour
+	 */
 	public String getEndHrs()
 	{
 		String s = "";
@@ -200,6 +200,10 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
 		return s;
 	}
 
+	/**
+	 * Gets the event's ending minute in the string format.
+	 * @return the event's ending minute
+	 */
 	public String getEndMins()
 	{
 		String s = "";
@@ -208,6 +212,11 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
 		return s;
 	}
 
+	/**
+	 * Gets an Integer representation of the event's starting time. 
+	 * For example, if the starting time is 12:30, the method returns 1230.
+	 * @return integer starting time
+	 */
 	public int getIntegerStartTime()
 	{
 		String s = "";
@@ -215,6 +224,11 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
 		return Integer.parseInt(s);
 	}
 
+	/**
+	 * Gets an Integer representation of the event's ending time. 
+	 * For example, if the ending time is 12:30, the method returns 1230.
+	 * @return integer ending time
+	 */
 	public int getIntegerEndTime()
 	{
 		String s = "";
@@ -223,7 +237,7 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
 	}
 
 	/**
-	 * Convert event to the following format: DayName Month MonthDay StartingTime - EndingTime Title.
+	 * Converts event to the following format: DayName Month MonthDay Year StartingTime - EndingTime Title.
 	 * @return string of event details
 	 */
 	public String toString()
@@ -242,6 +256,10 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
 		return s;
 	}
 
+	/**
+	 * Returns a simplified version of the event information in the following String format: Title StartingTime - EndingTime
+	 * @return string of event details
+	 */
 	public String printEvent()
 	{
 		String s = "";
@@ -291,9 +309,8 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
 
 
 	@Override
-	//Override compareTo method to specify TreeSet order
 	/**
-	 * Override compareTo method to specify TreeSet order by starting time then by date.
+	 * Overrides compareTo method to specify TreeSet order by starting time then by date.
 	 * @param that event to be compared to
 	 * @return integer 0 (equals), 1 (more than), or -1 (less than)
 	 */
@@ -312,7 +329,7 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
 
 	@Override
 	/**
-	 * Override equals to be compatible with compareTo method
+	 * Overrides equals method to be compatible with compareTo method
 	 * @param x object to test for equality
 	 * @return integer value returned by compareTo method
 	 */
@@ -322,15 +339,15 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
 		return this.compareTo(that) == 0;
 	}
 
-	public static void main(String[] args)
-	{
-		CalendarEvent event = new CalendarEvent("Test Event", "12/10/1997", "12:30", "2:00");
-		System.out.println(event.toString());
-		event.setDate("01/10/2017");
-		System.out.println(event.toString());
-		event.setEnd("6:30");
-		System.out.println(event.toString());
-		event.setStart("4:00");
-		System.out.println(event.toString());
-	}
+//	public static void main(String[] args)
+//	{
+//		CalendarEvent event = new CalendarEvent("Test Event", "12/10/1997", "12:30", "2:00");
+//		System.out.println(event.toString());
+//		event.setDate("01/10/2017");
+//		System.out.println(event.toString());
+//		event.setEnd("6:30");
+//		System.out.println(event.toString());
+//		event.setStart("4:00");
+//		System.out.println(event.toString());
+//	}
 }

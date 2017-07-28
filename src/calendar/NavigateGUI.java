@@ -12,6 +12,10 @@ import java.io.IOException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * A JPanel that represents the Navigation buttons in GUI. 
+ *
+ */
 public class NavigateGUI extends JPanel {
 
 	//instance variables
@@ -23,7 +27,7 @@ public class NavigateGUI extends JPanel {
 	private boolean quitIsClicked;
 
 	/**
-	 * Construct a NavigateGUI object
+	 * Constructs a NavigateGUI object
 	 */
 	public NavigateGUI(Scheduler s)
 	{
@@ -43,7 +47,7 @@ public class NavigateGUI extends JPanel {
 		prev.addActionListener(getListener(prev));
 		create.addActionListener(getListener(create));
 		quit.addActionListener(getListener(quit));
-		
+
 		//add mouse listeners
 		create.addMouseListener(hoverEffect(create));
 		next.addMouseListener(hoverEffect(next));
@@ -51,6 +55,9 @@ public class NavigateGUI extends JPanel {
 		quit.addMouseListener(hoverEffect(quit));
 	}
 
+	/**
+	 * Draws the NavigateGUI object.
+	 */
 	public void drawView()
 	{
 		//create new local panel that contains the prev and next buttons
@@ -65,6 +72,12 @@ public class NavigateGUI extends JPanel {
 		this.add(panel, BorderLayout.CENTER);
 	}
 
+	/**
+	 * Creates and returns a new MouseAdapter instance that changes the cursor's shape
+	 * into the hand cursor when the user hovers on a button. 
+	 * @param b the button on which the user hovered
+	 * @return the MouseAdapter instance
+	 */
 	private MouseAdapter hoverEffect(JButton b)
 	{
 		return new MouseAdapter()
@@ -80,43 +93,55 @@ public class NavigateGUI extends JPanel {
 
 	}
 
+	/**
+	 * Creates and returns a new ActionListener instance that behaves differently depending on the
+	 * button that was clicked.
+	 * @param btn the clicked button
+	 * @return the ActionListener instance
+	 */
 	private ActionListener getListener(JButton btn)
 	{
 		return new ActionListener()
 		{
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				//if the "Create" button was clicked
 				if (btn.equals(create))
 				{
+					//prompt "create new event" dialogue
 					promptInputBox();
 				}
-				//terminate program and save the events in "events.txt"
+				//if the "Quit" button was clicked
 				else if (btn.equals(quit))
 				{
+					//terminate program and save the events in "events.txt"
 					try {
 						scheduler.save();
 						quitIsClicked = true;
 					} catch (IOException m) {
 						System.out.println(m.getMessage());
 					}
-
 				}
+				//if the ">" button was clicked
 				else if (btn == next)
 				{
+					//navigate to the next day
 					navigateToNext();
 				}
+				//if the "<" button was clicked
 				else if (btn == prev)
 				{
+					//navigate to the previous day
 					navigateToPrev();
 				}
-
 			}
-
 		};
-
 	}
 
+	/**
+	 * Creates a group of panels that get the new event information from the user and calls the method
+	 * that prompts the dialogue box containing those panels.
+	 */
 	private void promptInputBox()
 	{
 		//create all input text fields
@@ -161,6 +186,14 @@ public class NavigateGUI extends JPanel {
 
 	}
 
+	/**
+	 * Prompts a dialogue box that asks the user for the information of the event to be created.
+	 * @param inputPanel the panel containing all JComponents 
+	 * @param title the textField in which the user enters the event's title
+	 * @param date the textField in which the user enters the event's date
+	 * @param start the textField in which the user enters the event's starting time
+	 * @param finish the textField in which the user enters the event's ending time
+	 */
 	private void showDialogue(JPanel inputPanel, JTextField title, JTextField date, JTextField start,
 			JTextField finish)
 	{
@@ -195,7 +228,10 @@ public class NavigateGUI extends JPanel {
 		else if (result == JOptionPane.CLOSED_OPTION)
 		{}
 	}
-	
+
+	/**
+	 * Updates the model's selected date to the next day in the calendar.
+	 */
 	private void navigateToNext()
 	{
 		//get current selected date in the model
@@ -219,6 +255,9 @@ public class NavigateGUI extends JPanel {
 		scheduler.setSelectedDate(nextDate);
 	}
 
+	/**
+	 * Updates the model's selected date to the previous day in the calendar.
+	 */
 	private void navigateToPrev()
 	{
 
@@ -250,24 +289,28 @@ public class NavigateGUI extends JPanel {
 		scheduler.setSelectedDate(prevDate);
 	}
 
+	/**
+	 * Checks if the quit button is clicked.
+	 * @return true if the quit button is clicked
+	 */
 	public boolean isQuitClicked()
 	{
 		return quitIsClicked;
 	}
-	
-	public static void main(String[] args)
-	{
-		Scheduler s = new Scheduler();
-		NavigateGUI navigateView = new NavigateGUI(s);
-		navigateView.drawView();
 
-		JFrame frame = new JFrame();
-		frame.setSize(800, 300);
-		frame.setLayout(new BorderLayout());
-
-		frame.add(navigateView, BorderLayout.NORTH);
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//frame.pack();	
-	}
+//	public static void main(String[] args)
+//	{
+//		Scheduler s = new Scheduler();
+//		NavigateGUI navigateView = new NavigateGUI(s);
+//		navigateView.drawView();
+//
+//		JFrame frame = new JFrame();
+//		frame.setSize(800, 300);
+//		frame.setLayout(new BorderLayout());
+//
+//		frame.add(navigateView, BorderLayout.NORTH);
+//		frame.setVisible(true);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		//frame.pack();	
+//	}
 }

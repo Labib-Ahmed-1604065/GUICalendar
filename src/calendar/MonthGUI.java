@@ -13,11 +13,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-/*
- * 1) Use time framework instead of gregorian calendar
- * 2) Have reference to the model
- * 3) ChangeListeners implementation
- * 3) next day, 
+/**
+ * A JPanel that represents the Calendar Months in GUI. 
+ *
  */
 public class MonthGUI extends JPanel implements ChangeListener{
 
@@ -28,8 +26,8 @@ public class MonthGUI extends JPanel implements ChangeListener{
 	private LocalDate selectedDate;
 
 	/**
-	 * Construct a MonthGui object.
-	 * @param c GregorianCalendar instance
+	 * Constructs a MonthGui object.
+	 * @param s a reference to the Scheduler object (model)
 	 */
 	public MonthGUI(Scheduler s)
 	{
@@ -38,15 +36,11 @@ public class MonthGUI extends JPanel implements ChangeListener{
 		btnPanel = new JPanel();
 		scheduler = s;
 		selectedDate = scheduler.getSelectedDate();
-
-		//date = d;
 	}
 
-	//	public void paintComponent(Graphics g)
-	//	{
-	//		super.paintComponent(g);
-	//		this.drawView();
-	//	}
+	/**
+	 * Draws the MonthGUI object.
+	 */
 	public void drawView()
 	{
 		//set layout manager of label panel 
@@ -70,7 +64,12 @@ public class MonthGUI extends JPanel implements ChangeListener{
 		this.setPreferredSize(new Dimension(250,100));
 	}
 
-	//listener for hovering over the day buttons 
+	/**
+	 * Creates and returns a new MouseAdapter instance that changes the cursor's shape
+	 * into the hand cursor when the user hovers on a button. 
+	 * @param b the button on which the user hovered
+	 * @return the MouseAdapter instance
+	 */
 	private MouseAdapter hoverEffect(JButton b)
 	{
 		return new MouseAdapter()
@@ -78,24 +77,15 @@ public class MonthGUI extends JPanel implements ChangeListener{
 			@Override
 			public void mouseEntered(MouseEvent e) 
 			{
-				//change color of button to Gray
-				//b.setOpaque(true);
-				//b.setBackground(Color.GRAY);
+				//changes the cursor shape into the hand cursor
 				b.setCursor(new Cursor(Cursor.HAND_CURSOR));
 			}
-
-//			@Override
-//			public void mouseExited(MouseEvent e) 
-//			{
-//				//change color of button back to original color
-//				b.setBackground(UIManager.getColor("control"));
-//			}
 		};
 	}
 
 	/**
 	 * Creates the clickable month days.
-	 * @param c Calendar instance 
+	 * @param c the currently selected localDate
 	 */
 	private void createButtonPanel(LocalDate date)
 	{
@@ -167,15 +157,22 @@ public class MonthGUI extends JPanel implements ChangeListener{
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
+				//create a new dummy localDate with the updated dayValue
 				LocalDate dummy = scheduler.getSelectedDate().withDayOfMonth(dayValue);
+				//update the model
 				scheduler.setSelectedDate(dummy);
 			}
 		};
 	}
 	
 	@Override
+	/**
+	 * Updates the MonthGUI view upon a change in the model. 
+	 * @param e the event that notifies the view of the change
+	 */
 	public void stateChanged(ChangeEvent e) 
 	{
+		//get updated data
 		selectedDate = scheduler.getSelectedDate();
 		//remove any existing components in the MonthGUI panel
 		this.removeAll();
@@ -183,29 +180,28 @@ public class MonthGUI extends JPanel implements ChangeListener{
 		//remove any existing components in the BtnPanel and the labelPanel
 		btnPanel.removeAll();
 		labelPanel.removeAll();
+		//draw the monthGUI view again
 		this.drawView();
 	}
 
-	public static void main(String[] args)
-	{
-		//MyCalendar c = new MyCalendar();
-		Scheduler s = new Scheduler();
-		LocalDateTime date = LocalDateTime.now();
-		MonthGUI monthView = new MonthGUI(s);
-		monthView.drawView();
-
-		//		s.setSelectedDate(LocalDate.of(2018, 12, 23));
-		//		monthView.drawView();
-
-		JFrame frame = new JFrame();
-		frame.setSize(800, 300);
-		frame.setLayout(new BorderLayout());
-
-		frame.add(monthView, BorderLayout.WEST);
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//frame.pack();
-	}
-
-
+//	public static void main(String[] args)
+//	{
+//		//MyCalendar c = new MyCalendar();
+//		Scheduler s = new Scheduler();
+//		LocalDateTime date = LocalDateTime.now();
+//		MonthGUI monthView = new MonthGUI(s);
+//		monthView.drawView();
+//
+//		//		s.setSelectedDate(LocalDate.of(2018, 12, 23));
+//		//		monthView.drawView();
+//
+//		JFrame frame = new JFrame();
+//		frame.setSize(800, 300);
+//		frame.setLayout(new BorderLayout());
+//
+//		frame.add(monthView, BorderLayout.WEST);
+//		frame.setVisible(true);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		//frame.pack();
+//	}
 }

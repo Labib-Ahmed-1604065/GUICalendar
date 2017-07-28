@@ -13,17 +13,13 @@ import java.util.Date;
  * An EventReader reads events from a text file. 
  */
 
-/*
- * Change the event format in events.txt
- * 1) the 
- */
 public class EventReader {
 
 	private BufferedReader br;
 	private String year;
 
 	/**
-	 * Construct EventReader object.
+	 * Constructs EventReader object.
 	 * @param br BufferedReader object
 	 */
 	public EventReader(BufferedReader br)
@@ -33,7 +29,7 @@ public class EventReader {
 	}
 
 	/**
-	 * Read event information from text file.
+	 * Reads event information from text file.
 	 * @return Event object with read info
 	 * @throws IOException
 	 */
@@ -129,7 +125,11 @@ public class EventReader {
 		return e;
 	}
 
-
+	/**
+	 * Converts the date parsed from the textFile from the EEEE MMMM d yyyy format into the MM/dd/yyyy format.
+	 * @param stringDate parsed string date
+	 * @return a string date with the new format. 
+	 */
 	private String convertDate(String stringDate) 
 	{
 

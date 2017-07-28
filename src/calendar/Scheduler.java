@@ -23,12 +23,12 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 
 /**
- * A scheduler contains events that can be created, loaded, or discarded.
- *
+ * A scheduler contains and maintains a reference to the events that can be created, loaded, or discarded. 
+ * It serves as the model in the program.
  */
 public class Scheduler {
 
-	//TreeMap maps LocalDateTime to event
+	//TreeMap maps LocalDate to event
 	TreeMap<LocalDate, TreeSet<CalendarEvent>> schedule;
 	ArrayList<ChangeListener> listeners;
 	private LocalDate currentDate;
@@ -274,6 +274,7 @@ public class Scheduler {
 
 		return false;
 	}
+	
 	/**
 	 * Attaches a listener to the model.
 	 * @param c the ChangeListener
@@ -293,7 +294,7 @@ public class Scheduler {
 	}
 
 	/**
-	 * Notify the views that there is a change. Called whenever 
+	 * Notifies the views that there is a change. Called whenever 
 	 * an event is created/deleted or when the selected date changes.
 	 */
 	public void update()
@@ -305,34 +306,40 @@ public class Scheduler {
 		}
 	}
 
-	//setter
+	/**
+	 * Changes the selectedDate and calls the update() method.
+	 * @param d the new selectedDate
+	 */
 	public void setSelectedDate(LocalDate d)
 	{
 		selectedDate = d;
 		update();
 	}
 
-	//getter
+	/**
+	 * Gets the current selectedDate.
+	 * @return the selectedDate
+	 */
 	public LocalDate getSelectedDate()
 	{
 		return selectedDate;
 	}
 
 
-	public static void main(String[] args)
-	{
-		Scheduler scheduler = new Scheduler();
-		CalendarEvent e = new CalendarEvent("Test Event", "01/10/2017", "12:30", "14:30");
-		scheduler.createEvent(e);
-		scheduler.createEvent("Doctor's Appointment", "08/7/2017", "16:30", "18:30");
-		System.out.println(scheduler.toString());
-		System.out.println(scheduler.browseEvents());
-		scheduler.deleteEvent("08/7/2017");
-		System.out.println(scheduler.toString());
-		scheduler.deleteAllEvents();
-		System.out.println(scheduler.toString());
-
-
-	}
+//	public static void main(String[] args)
+//	{
+//		Scheduler scheduler = new Scheduler();
+//		CalendarEvent e = new CalendarEvent("Test Event", "01/10/2017", "12:30", "14:30");
+//		scheduler.createEvent(e);
+//		scheduler.createEvent("Doctor's Appointment", "08/7/2017", "16:30", "18:30");
+//		System.out.println(scheduler.toString());
+//		System.out.println(scheduler.browseEvents());
+//		scheduler.deleteEvent("08/7/2017");
+//		System.out.println(scheduler.toString());
+//		scheduler.deleteAllEvents();
+//		System.out.println(scheduler.toString());
+//
+//
+//	}
 
 }
