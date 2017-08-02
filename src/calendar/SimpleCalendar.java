@@ -32,7 +32,8 @@ public class SimpleCalendar{
 		MonthGUI monthView = new MonthGUI(s);
 		DayGUI dayView = new DayGUI(s);
 		NavigateGUI navigateGUI = new NavigateGUI(s);
-
+		//MonthView mv = new MonthView(s);
+		
 		s.attach(monthView);
 		s.attach(dayView);
 

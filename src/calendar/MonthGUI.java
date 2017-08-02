@@ -93,7 +93,6 @@ public class MonthGUI extends JPanel implements ChangeListener{
 		btnPanel.setLayout(new GridLayout(0, 7, 0, 0));
 
 		//create temporary calendar with DAY_OF_MONTH = 1 : the first day of the month
-		//GregorianCalendar temp = new GregorianCalendar(c.get(Calendar.YEAR), c.get(Calendar.MONTH), 1);
 		LocalDate temp = LocalDate.of(date.getYear(), date.getMonthValue(), 1);
 
 		List<String> weekDays = Arrays.asList("Su", "Mo", "Tu",
@@ -111,11 +110,10 @@ public class MonthGUI extends JPanel implements ChangeListener{
 
 		//determine the name of the first day of month. 
 		//getValue returns the int value of the enum
-		//int  firstDay = temp.get(Calendar.DAY_OF_WEEK);		
 		int firstDay = temp.getDayOfWeek().getValue();
 
 		//add blank buttons till you reach the first day of the month
-		for (int j = 1; j < firstDay; j++)
+		for (int j = 0; j < firstDay; j++)
 		{
 			JButton button = new JButton();
 			button.setBorder(new EmptyBorder(0, 0, 0, 0));

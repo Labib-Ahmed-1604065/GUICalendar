@@ -4,7 +4,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.*;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.time.*;
 import java.util.TreeMap;
 import java.util.TreeSet;
