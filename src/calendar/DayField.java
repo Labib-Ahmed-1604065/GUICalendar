@@ -41,7 +41,7 @@ public class DayField extends JPanel{
 		else
 			s += hour + ":00";
 
-		JLabel label = new JLabel(s);
+		JLabel label = new JLabel(s );
 		label.setPreferredSize(new Dimension(40, 200));
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setBorder(BorderFactory.createLineBorder(Color.lightGray));
